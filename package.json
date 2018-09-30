@@ -1,6 +1,11 @@
 {
   "name": "grandma2",
   "version": "1.0.0",
+	"api_version": "1.0.0",
+	"keywords": [ "Lighting" ],
+	"manufacturer": "grandMA",
+	"product": "2",
+	"shortname": "grandma",
   "description": "",
   "main": "grandma2.js",
   "scripts": {
