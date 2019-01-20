@@ -1,19 +1,21 @@
 {
-  "name": "grandma2",
-  "version": "1.0.0",
+	"name": "grandma2",
+	"version": "1.0.1",
 	"api_version": "1.0.0",
-	"keywords": [ "Lighting" ],
+	"keywords": [
+		"Lighting"
+	],
 	"manufacturer": "grandMA",
 	"product": "2",
-	"shortname": "grandma",
-  "description": "",
-  "main": "grandma2.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "William Viker <william.viker@gmail.com>",
-  "license": "MIT",
-  "dependencies": {
-    "telnet-stream": "^1.0.4"
-  }
+	"shortname": "grandma2",
+	"description": "",
+	"main": "grandma2.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "William Viker <william.viker@gmail.com>",
+	"license": "MIT",
+	"dependencies": {
+		"telnet-stream": "^1.0.4"
+	}
 }
