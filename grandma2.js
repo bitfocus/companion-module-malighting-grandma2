@@ -92,7 +92,7 @@ var GMA_BUTTON = [
     { id: '7', label: '7' },
     { id: '8', label: '8' },
     { id: '9', label: '9' },
-    { id: 'PLUSE', label: '+' },
+    { id: 'PLUS', label: '+' },
     { id: 'MINUS', label: '-' },
     { id: 'DOT', label: '.' },
     { id: 'FULL', label: 'Full' },
@@ -112,16 +112,16 @@ var GMA_BUTTON = [
     { id: 'BACKUP', label: 'Backup' },
     { id: 'SETUP', label: 'Setup' },
     { id: 'TOOLS', label: 'Tools' },
-    { id: 'V1', label: 'V1' },
-    { id: 'V2', label: 'V2' },
-    { id: 'V3', label: 'V3' },
-    { id: 'V4', label: 'V4' },
-    { id: 'V5', label: 'V5' },
-    { id: 'V6', label: 'V6' },
-    { id: 'V7', label: 'V7' },
-    { id: 'V8', label: 'V8' },
-    { id: 'V9', label: 'V9' },
-    { id: 'V10', label: 'V10' }
+    { id: 'V1', label: 'View 1' },
+    { id: 'V2', label: 'View 2' },
+    { id: 'V3', label: 'View 3' },
+    { id: 'V4', label: 'View 4' },
+    { id: 'V5', label: 'View 5' },
+    { id: 'V6', label: 'View 6' },
+    { id: 'V7', label: 'View 7' },
+    { id: 'V8', label: 'View 8' },
+    { id: 'V9', label: 'View 9' },
+    { id: 'V10', label: 'View 10' }
 ];
 
 function instance(system, id, config) {
