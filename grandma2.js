@@ -92,6 +92,452 @@ var GMA_BUTTON = [
     { id: '7', label: '7' },
     { id: '8', label: '8' },
     { id: '9', label: '9' },
+    { id: 'PLUSE', label: '+' },
+    { id: 'MINUS', label: '-' },
+    { id: 'DOT', label: '.' },
+    { id: 'FULL', label: 'Full' },
+    { id: 'HIGH', label: 'Highlight' },
+    { id: 'SOLO', label: 'Solo' },
+    { id: 'THRU', label: 'Thru' },
+    { id: 'IF', label: 'If' },
+    { id: 'AT', label: 'At' },
+    { id: 'CLEAR', label: 'Clear' },
+    { id: 'PLEASE', label: 'Please' },
+    { id: 'UP', label: 'Up' },
+    { id: 'SET', label: 'Set' },
+    { id: 'PREV', label: 'Previous' },
+    { id: 'NEXT', label: 'Next' },
+    { id: 'DOWN', label: 'Down' },
+    { id: 'HELP', label: 'Help' },
+    { id: 'BACKUP', label: 'Backup' },
+    { id: 'SETUP', label: 'Setup' },
+    { id: 'TOOLS', label: 'Tools' },
+    { id: 'V1', label: 'V1' },
+    { id: 'V2', label: 'V2' },
+    { id: 'V3', label: 'V3' },
+    { id: 'V4', label: 'V4' },
+    { id: 'V5', label: 'V5' },
+    { id: 'V6', label: 'V6' },
+    { id: 'V7', label: 'V7' },
+    { id: 'V8', label: 'V8' },
+    { id: 'V9', label: 'V9' },
+    { id: 'V10', label: 'V10' }
+];
+
+var GMA_ENCODER_0 = [
+    { id: '-1', label: 'CCW'},
+    { id: '1', label: 'CW'},
+];
+
+var GMA_ENCODER_1 = [
+    { id: '-1', label: 'CCW'},
+    { id: '1', label: 'CW'},
+];
+
+var GMA_ENCODER_2 = [
+    { id: '-1', label: 'CCW'},
+    { id: '1', label: 'CW'},
+];
+
+var GMA_ENCODER_3 = [
+    { id: '-1', label: 'CCW'},
+    { id: '1', label: 'CW'},
+];
+
+var GMA_ENCODER_4 = [
+    { id: '-1', label: 'CCW'},
+    { id: '1', label: 'CW'},
+];
+
+var GMA_ENCODER_5 = [
+    { id: '-1', label: 'CCW'},
+    { id: '1', label: 'CW'},
+];
+
+var GMA_ENCODER_6 = [
+    { id: '-1', label: 'CCW'},
+    { id: '1', label: 'CW'},
+];
+
+var GMA_ENCODER_7 = [
+    { id: '-1', label: 'CCW'},
+    { id: '1', label: 'CW'},
+];
+
+function instance(system, id, config) {
+    var self = this;
+
+    // Request id counter
+    self.request_id = 0;
+    self.login = false;
+    // super-constructor
+    instance_skel.apply(this, arguments);
+    self.status(1,'Initializing');
+    self.actions(); // export actions
+
+    return self;
+}
+
+instance.prototype.updateConfig = function(config) {
+    var self = this;
+    self.config = config;
+    self.init_tcp();
+};
+
+instance.prototype.incomingData = function(data) {
+    var self = this;
+    debug(data);
+
+    if (self.login === false && data.match(/Please login/)) {
+        self.status(1,'Logging in');
+        self.telnet.write("login "+self.config.user+" "+self.config.pass+"\r\n");
+    }
+    else if (self.login === false && data.match(/Logged in as User/) && !data.match(/guest/)) {
+        self.login = true;
+        self.status(0);
+        debug("logged in");
+    }
+    else if (self.login === false && data.match(/no login/)) {
+        debug("incorrect username/password");
+        self.status(2,'Incorrect user/pass');
+
+    }
+    else {
+        debug("data nologin", data);
+    }
+};
+
+instance.prototype.init = function() {
+    var self = this;
+
+    debug = self.debug;
+    log = self.log;
+
+    self.init_tcp();
+};
+
+instance.prototype.init_tcp = function() {
+    var self = this;
+    var receivebuffer = '';
+
+    if (self.socket !== undefined) {
+        self.socket.destroy();
+        delete self.socket;
+        self.login = false;
+    }
+
+    if (self.config.host) {
+        self.socket = new tcp(self.config.host, 30000);
+
+        self.socket.on('status_change', function (status, message) {
+            self.status(status, message);
+        });
+
+        self.socket.on('error', function (err) {
+            debug("Network error", err);
+            self.log('error',"Network error: " + err.message);
+        });
+
+        self.socket.on('connect', function () {
+            debug("Connected");
+            self.login = false;
+        });
+
+        self.telnet = new TelnetSocket(self.socket.socket);
+
+        self.socket.on('error', function (err) {
+            debug("Network error", err);
+            self.log('error',"Network error: " + err.message);
+        });
+
+        // if we get any data, display it to stdout
+        self.telnet.on("data", function(buffer) {
+            var indata = buffer.toString("utf8");
+            self.incomingData(indata);
+        });
+
+        // tell remote we WONT do anything we're asked to DO
+        self.telnet.on("do", function(option) {
+            return self.telnet.writeWont(option);
+        });
+
+        // tell the remote DONT do whatever they WILL offer
+        self.telnet.on("will", function(option) {
+            return self.telnet.writeDont(option);
+        });
+
+    }
+};
+
+// Return config fields for web config
+instance.prototype.config_fields = function () {
+    var self = this;
+
+    return [
+        {
+            type: 'text',
+            id: 'info',
+            width: 12,
+            label: 'Information',
+            value: 'Remember to activate Telnet Remote in Setup -> Console -> Global Settings -> Telnet'
+        },
+        {
+            type: 'textinput',
+            id: 'host',
+            label: 'grandMA2 Console IP',
+            width: 12,
+            default: '192.168.0.1',
+            regex: self.REGEX_IP
+        },
+        {
+            type: 'textinput',
+            id: 'user',
+            label: 'Username',
+            width: 6,
+            default: 'Administrator',
+        },
+        {
+            type: 'textinput',
+            id: 'pass',
+            label: 'Password',
+            width: 6,
+            default: 'admin'
+        }
+    ]
+};
+
+// When module gets deleted
+instance.prototype.destroy = function() {
+    var self = this;
+
+    if (self.socket !== undefined) {
+        self.socket.destroy();
+    }
+
+    debug("destroy", self.id);;
+};
+
+instance.prototype.actions = function(system) {
+    var self = this;
+    self.system.emit('instance_actions', self.id, {
+
+        'command': {
+            label:'Run Command',
+            options: [
+                {
+                     type: 'textinput',
+                     label: 'Command',
+                     id: 'command',
+                     default: '',
+                }
+            ]
+        },
+        'pushbutton': {
+             label:'Push Button',
+             options: [
+                 {
+                     type: 'dropdown',
+                     label: 'Button',
+                     id: 'pushbutton',
+                     choices: GMA_BUTTON
+                 }
+             ]
+        },
+        'relbutton': {
+             label:'Release Button',
+             options: [
+                 {
+                      type: 'dropdown',
+                      label: 'Button',
+                      id: 'relbutton',
+                      choices: GMA_BUTTON
+                 }
+             ]
+         },
+         'encoder1': {
+             label:'Encoder 1',
+             options: [
+                 {
+                      type: 'dropdown',
+                      label: 'Direction',
+                      id: 'encoder1',
+                      choices: GMA_ENCODER_0
+                 }
+             ]
+         },
+         'encoder2': {
+             label:'Encoder 2',
+             options: [
+                 {
+                      type: 'dropdown',
+                      label: 'Direction',
+                      id: 'encoder2',
+                      choices: GMA_ENCODER_1
+                 }
+             ]
+          },
+          'encoder3': {
+              label:'Encoder 3',
+              options: [
+                  {
+                       type: 'dropdown',
+                       label: 'Direction',
+                       id: 'encoder3',
+                       choices: GMA_ENCODER_2
+                  }
+             ]
+          },
+          'encoder4': {
+              label:'Encoder 4',
+              options: [
+                  {
+                       type: 'dropdown',
+                       label: 'Direction',
+                       id: 'encoder4',
+                       choices: GMA_ENCODER_3
+                  }
+              ]
+          },
+
+          'encoder5': {
+              label:'Screen 1 Encoder Small screen',
+              options: [
+                  {
+                       type: 'dropdown',
+                       label: 'Direction',
+                       id: 'encoder5',
+                       choices: GMA_ENCODER_4
+                  }
+              ]
+          },
+          'encoder6': {
+              label:'Screen 2 Encoder',
+              options: [
+                  {
+                       type: 'dropdown',
+                       label: 'Direction',
+                       id: 'encoder6',
+                       choices: GMA_ENCODER_5
+                  }
+              ]
+          },
+          'encoder7': {
+              label:'Screen 3 Encoder',
+              options: [
+                  {
+                       type: 'dropdown',
+                       label: 'Direction',
+                        id: 'encoder7',
+                        choices: GMA_ENCODER_6
+                  }
+              ]
+          },
+          'encoder8': {
+              label:'Screen 4 Encoder',
+              options: [
+                  {
+                       type: 'dropdown',
+                       label: 'Direction',
+                       id: 'encoder8',
+                       choices: GMA_ENCODER_7
+                  }
+              ]
+          },
+
+
+    });
+}
+
+instance.prototype.action = function(action) {
+    var self = this;
+    var opt = action.options
+    console.log("Sending some action", action);
+    var cmd;
+
+    switch (action.action){
+
+        case 'command':
+            cmd = opt.command;
+            break;
+        case 'pushbutton':
+            cmd = 'LUA \'gma.canbus.hardkey(\"'+ opt.pushbutton +'\", true, false)\'';
+            break;
+        case 'relbutton':
+            cmd = 'LUA \'gma.canbus.hardkey(\"'+ opt.relbutton +'\", false, false)\'';
+            break;
+        case 'encoder1':
+            cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder1 +', pressed, false)\'';
+            break;
+        case 'encoder2':
+            cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder2 +', pressed, false)\'';
+            break;
+        case 'encoder3':
+            cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder3 +', pressed, false)\'';
+            break;
+        case 'encoder4':
+            cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder4 +', pressed, false)\'';
+            break;
+        case 'encoder5':
+            cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder5 +', pressed, false)\'';
+            break;
+        case 'encoder6':
+            cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder6 +', pressed, false)\'';
+            break;
+        case 'encoder7':
+            cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder7 +', pressed, false)\'';
+            break;
+        case 'encoder8':
+            cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder8 +', pressed, false)\'';
+            break;
+
+    };
+    if (cmd !== undefined) {
+
+        if (self.socket !== undefined && self.socket.connected) {
+            self.telnet.write(cmd+"\r\n");
+        } else {
+            debug('Socket not connected :(');
+        }
+    }
+};
+
+instance_skel.extendedBy(instance);
+exports = module.exports = instance;
+
+
+    { id: 'TIME', label: 'Time' },
+    { id: 'STORE', label: 'Store' },
+    { id: 'BLIND', label: 'Blind' },
+    { id: 'FREEZE', label: 'Freeze' },
+    { id: 'PREVIEW', label: 'Preview' },
+    { id: 'ASSIGN', label: 'Assign' },
+    { id: 'ALIGN', label: 'Align' },
+    { id: 'BLACKOUT', label: 'Blackout' },
+    { id: 'VIEW', label: 'View' },
+    { id: 'EFFECT', label: 'Effect' },
+    { id: 'MA', label: 'MA' },
+    { id: 'DELETE', label: 'Delete' },
+    { id: 'PAGE', label: 'Page' },
+    { id: 'MACRO', label: 'Macro' },
+    { id: 'PRESET', label: 'Preset' },
+    { id: 'COPY', label: 'Copy' },
+    { id: 'SEQU', label: 'Sequence' },
+    { id: 'CUE', label: 'Cue' },
+    { id: 'EXEC', label: 'Executor' },
+    { id: 'CHANNEL', label: 'Channel' },
+    { id: 'FIXTURE', label: 'Fixture' },
+    { id: 'GROUP', label: 'Group' },
+    { id: 'MOVE', label: 'Move' },
+    { id: '0', label: '0' },
+    { id: '1', label: '1' },
+    { id: '2', label: '2' },
+    { id: '3', label: '3' },
+    { id: '4', label: '4' },
+    { id: '5', label: '5' },
+    { id: '6', label: '6' },
+    { id: '7', label: '7' },
+    { id: '8', label: '8' },
+    { id: '9', label: '9' },
     { id: 'PLUS', label: '+' },
     { id: 'MINUS', label: '-' },
     { id: 'DOT', label: '.' },
