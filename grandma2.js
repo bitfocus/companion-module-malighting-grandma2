@@ -3,6 +3,130 @@ var TelnetSocket = require('../../telnet');
 var debug;
 var log;
 
+instance.prototype.CHOICES_BUTTON = [
+		{ id: 'PAGE_CHANNEL_UP', label: 'Ch Pg +' },
+		{ id: 'PAGE_CHANNEL_DOWN', label: 'Ch Pg -' },
+		{ id: 'PAGE_FADER_UP', label: 'Fd Pg +' },
+		{ id: 'PAGE_FADER_DOWN', label: 'Fd Pg -' },
+		{ id: 'PAGE_BUTTON_UP', label: 'Bt Pg +' },
+		{ id: 'PAGE_BUTTON_DOWN', label: 'Bt Pg -' },
+		{ id: 'DEF_PAUSE', label: 'Pause Playback' },
+		{ id: 'DEF_GO_MINUS', label: 'Go - Playback' },
+		{ id: 'DEF_GO_PLUS', label: 'Go + Playback' },
+		{ id: 'X1', label: 'X1' },
+		{ id: 'X2', label: 'X2' },
+		{ id: 'X3', label: 'X3' },
+		{ id: 'X4', label: 'X4' },
+		{ id: 'X5', label: 'X5' },
+		{ id: 'X6', label: 'X6' },
+		{ id: 'X7', label: 'X7' },
+		{ id: 'X8', label: 'X8' },
+		{ id: 'X9', label: 'X9' },
+		{ id: 'X10', label: 'X10' },
+		{ id: 'X11', label: 'X11' },
+		{ id: 'X12', label: 'X12' },
+		{ id: 'X13', label: 'X13' },
+		{ id: 'X14', label: 'X14' },
+		{ id: 'X15', label: 'X15' },
+		{ id: 'X16', label: 'X16' },
+		{ id: 'X17', label: 'X17' },
+		{ id: 'X18', label: 'X18' },
+		{ id: 'X19', label: 'X19' },
+		{ id: 'X20', label: 'X20' },
+		{ id: 'LIST', label: 'List' },
+		{ id: 'USER1', label: 'User 1' },
+		{ id: 'USER2', label: 'User 2' },
+		{ id: 'U1', label: 'U1' },
+		{ id: 'U2', label: 'U2' },
+		{ id: 'U3', label: 'U3' },
+		{ id: 'U4', label: 'U4' },
+		{ id: 'ENCODER', label: 'Encoder ⦿' },
+		{ id: 'FIX', label: 'Fix' },
+		{ id: 'SELECT', label: 'Select' },
+		{ id: 'OFF', label: 'Off' },
+		{ id: 'TEMP', label: 'Temp' },
+		{ id: 'TOP', label: 'Top' },
+		{ id: 'ON', label: 'On' },
+		{ id: 'GOM_FAST', label: '<<<' },
+		{ id: 'LEARN', label: 'Learn' },
+		{ id: 'GOP_FAST', label: '>>>' },
+		{ id: 'GO_MINUS', label: 'Go -' },
+		{ id: 'PAUSE', label: 'Pause' },
+		{ id: 'GO_PLUS', label: 'Go +' },
+		{ id: 'OOPS', label: 'Oops' },
+		{ id: 'ESC', label: 'Esc' },
+		{ id: 'EDIT', label: 'Edit' },
+		{ id: 'GOTO', label: 'Goto' },
+		{ id: 'UPDATE', label: 'Update' },
+		{ id: 'TIME', label: 'Time' },
+		{ id: 'STORE', label: 'Store' },
+		{ id: 'BLIND', label: 'Blind' },
+		{ id: 'FREEZE', label: 'Freeze' },
+		{ id: 'PREVIEW', label: 'Preview' },
+		{ id: 'ASSIGN', label: 'Assign' },
+		{ id: 'ALIGN', label: 'Align' },
+		{ id: 'BLACKOUT', label: 'Blackout' },
+		{ id: 'VIEW', label: 'View' },
+		{ id: 'EFFECT', label: 'Effect' },
+		{ id: 'MA', label: 'MA' },
+		{ id: 'DELETE', label: 'Delete' },
+		{ id: 'PAGE', label: 'Page' },
+		{ id: 'MACRO', label: 'Macro' },
+		{ id: 'PRESET', label: 'Preset' },
+		{ id: 'COPY', label: 'Copy' },
+		{ id: 'SEQU', label: 'Sequence' },
+		{ id: 'CUE', label: 'Cue' },
+		{ id: 'EXEC', label: 'Executor' },
+		{ id: 'CHANNEL', label: 'Channel' },
+		{ id: 'FIXTURE', label: 'Fixture' },
+		{ id: 'GROUP', label: 'Group' },
+		{ id: 'MOVE', label: 'Move' },
+		{ id: '0', label: '0' },
+		{ id: '1', label: '1' },
+		{ id: '2', label: '2' },
+		{ id: '3', label: '3' },
+		{ id: '4', label: '4' },
+		{ id: '5', label: '5' },
+		{ id: '6', label: '6' },
+		{ id: '7', label: '7' },
+		{ id: '8', label: '8' },
+		{ id: '9', label: '9' },
+		{ id: 'PLUSE', label: '+' },
+		{ id: 'MINUS', label: '-' },
+		{ id: 'DOT', label: '.' },
+		{ id: 'FULL', label: 'Full' },
+		{ id: 'HIGH', label: 'Highlight' },
+		{ id: 'SOLO', label: 'Solo' },
+		{ id: 'THRU', label: 'Thru' },
+		{ id: 'IF', label: 'If' },
+		{ id: 'AT', label: 'At' },
+		{ id: 'CLEAR', label: 'Clear' },
+		{ id: 'PLEASE', label: 'Please' },
+		{ id: 'UP', label: 'Up' },
+		{ id: 'SET', label: 'Set' },
+		{ id: 'PREV', label: 'Previous' },
+		{ id: 'NEXT', label: 'Next' },
+		{ id: 'DOWN', label: 'Down' },
+		{ id: 'HELP', label: 'Help' },
+		{ id: 'BACKUP', label: 'Backup' },
+		{ id: 'SETUP', label: 'Setup' },
+		{ id: 'TOOLS', label: 'Tools' },
+		{ id: 'V1', label: 'V1' },
+		{ id: 'V2', label: 'V2' },
+		{ id: 'V3', label: 'V3' },
+		{ id: 'V4', label: 'V4' },
+		{ id: 'V5', label: 'V5' },
+		{ id: 'V6', label: 'V6' },
+		{ id: 'V7', label: 'V7' },
+		{ id: 'V8', label: 'V8' },
+		{ id: 'V9', label: 'V9' },
+		{ id: 'V10', label: 'V10' }
+];
+
+instance.prototype.CHOICES_DIRECTION = [
+		{ id: '-1', label: 'CCW'},
+		{ id: '1', label: 'CW'},
+];
 
 function instance(system, id, config) {
 	var self = this;
@@ -165,27 +289,148 @@ instance.prototype.actions = function(system) {
 
 		'command': {
 			label:'Run Command',
-			options: [
-				{
-					 type: 'textinput',
-					 label: 'Command',
-					 id: 'command',
-					 default: '',
-				}
-			]
+			options: [{
+				type: 'textinput',
+				label: 'Command',
+				id: 'command',
+				default: '',
+			}]
+		},
+		'pushbutton': {
+			label:'Push Button',
+			options: [{
+				type: 'dropdown',
+				label: 'Button',
+				id: 'pushbutton',
+				choices: self.CHOICES_BUTTON
+			}]
+		},
+		'relbutton': {
+			label:'Release Button',
+			options: [{
+				type: 'dropdown',
+				label: 'Button',
+				id: 'relbutton',
+				choices: self.CHOICES_BUTTON
+			}]
+		},
+		'encoder1': {
+			label:'Encoder 1',
+			options: [{
+				type: 'dropdown',
+				label: 'Direction',
+				id: 'encoder1',
+				choices: self.CHOICES_DIRECTION
+			}]
+		},
+		'encoder2': {
+			label:'Encoder 2',
+			options: [{
+				type: 'dropdown',
+				label: 'Direction',
+				id: 'encoder2',
+				choices: self.CHOICES_DIRECTION
+			}]
+		},
+		'encoder3': {
+			label:'Encoder 3',
+			options: [{
+				type: 'dropdown',
+				label: 'Direction',
+				id: 'encoder3',
+				choices: self.CHOICES_DIRECTION
+			}]
+		},
+		'encoder4': {
+			label:'Encoder 4',
+			options: [{
+				type: 'dropdown',
+				label: 'Direction',
+				id: 'encoder4',
+				choices: self.CHOICES_DIRECTION
+			}]
+		},
+		'encoder5': {
+			label:'Screen 1 Encoder Small screen',
+			options: [{
+				type: 'dropdown',
+				label: 'Direction',
+				id: 'encoder5',
+				choices: self.CHOICES_DIRECTION
+			}]
+		},
+		'encoder6': {
+			label:'Screen 2 Encoder',
+			options: [{
+				type: 'dropdown',
+				label: 'Direction',
+				id: 'encoder6',
+				choices: self.CHOICES_DIRECTION
+			}]
+		},
+		'encoder7': {
+			label:'Screen 3 Encoder',
+			options: [{
+				type: 'dropdown',
+				label: 'Direction',
+				id: 'encoder7',
+				choices: self.CHOICES_DIRECTION
+			}]
+		},
+		'encoder8': {
+			label:'Screen 4 Encoder',
+			options: [{
+				type: 'dropdown',
+				label: 'Direction',
+				id: 'encoder8',
+				choices: self.CHOICES_DIRECTION
+			}]
 		}
-
-
 	});
 }
 
 instance.prototype.action = function(action) {
 	var self = this;
+	var opt = action.options;
 	console.log("Sending some action", action);
 	var cmd;
-	if (action.action === 'command') {
-		cmd = action.options.command;
-	}
+
+	switch (action.action){
+
+		case 'command':
+			cmd = opt.command;
+			break;
+		case 'pushbutton':
+			cmd = 'LUA \'gma.canbus.hardkey(\"'+ opt.pushbutton +'\", true, false)\'';
+			break;
+		case 'relbutton':
+			cmd = 'LUA \'gma.canbus.hardkey(\"'+ opt.relbutton +'\", false, false)\'';
+			break;
+		case 'encoder1':
+			cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder1 +', pressed, false)\'';
+			break;
+		case 'encoder2':
+			cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder2 +', pressed, false)\'';
+			break;
+		case 'encoder3':
+			cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder3 +', pressed, false)\'';
+			break;
+		case 'encoder4':
+			cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder4 +', pressed, false)\'';
+			break;
+		case 'encoder5':
+			cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder5 +', pressed, false)\'';
+			break;
+		case 'encoder6':
+			cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder6 +', pressed, false)\'';
+			break;
+		case 'encoder7':
+			cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder7 +', pressed, false)\'';
+			break;
+		case 'encoder8':
+			cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder8 +', pressed, false)\'';
+			break;
+	};
 
 	if (cmd !== undefined) {
 
