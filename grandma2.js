@@ -136,7 +136,7 @@ instance.prototype.config_fields = function () {
 			id: 'user',
 			label: 'Username',
 			width: 6,
-			default: 'Administrator',
+			default: 'administrator',
 		},
 		{
 			type: 'textinput',
