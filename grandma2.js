@@ -125,7 +125,7 @@ instance.prototype.CHOICES_BUTTON = [
 
 instance.prototype.CHOICES_DIRECTION = [
 		{ id: '-1', label: 'CCW'},
-		{ id: '1', label: 'CW'},
+		{ id: '1', label: 'CW'}
 ];
 
 function instance(system, id, config) {
@@ -292,8 +292,7 @@ instance.prototype.actions = function(system) {
 			options: [{
 				type: 'textinput',
 				label: 'Command',
-				id: 'command',
-				default: '',
+				id: 'command'
 			}]
 		},
 		'pushbutton': {
