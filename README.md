@@ -1,2 +1,2 @@
-# companion-module-grandma2
+# companion-module-malighting-grandma2
 See HELP.md and LICENSE
