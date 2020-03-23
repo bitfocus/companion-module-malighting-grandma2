@@ -406,28 +406,28 @@ instance.prototype.action = function(action) {
 			cmd = `LUA 'gma.canbus.hardkey("${opt.relbutton}", false, false)'`;
 			break;
 		case 'encoder1':
-			cmd = `LUA 'gma.canbus.encoder(0, "${opt.encoder}", pressed, false)'`;
+			cmd = `LUA 'gma.canbus.encoder(0, "${opt.encoder}", false)'`;
 			break;
 		case 'encoder2':
-			cmd = `LUA 'gma.canbus.encoder(1, "${opt.encoder}", pressed, false)'`;
+			cmd = `LUA 'gma.canbus.encoder(1, "${opt.encoder}", false)'`;
 			break;
 		case 'encoder3':
-			cmd = `LUA 'gma.canbus.encoder(2, "${opt.encoder}", pressed, false)'`;
+			cmd = `LUA 'gma.canbus.encoder(2, "${opt.encoder}", false)'`;
 			break;
 		case 'encoder4':
-			cmd = `LUA 'gma.canbus.encoder(3, "${opt.encoder}", pressed, false)'`;
+			cmd = `LUA 'gma.canbus.encoder(3, "${opt.encoder}", false)'`;
 			break;
 		case 'encoder5':
-			cmd = `LUA 'gma.canbus.encoder(4, "${opt.encoder}", pressed, false)'`;
+			cmd = `LUA 'gma.canbus.encoder(4, "${opt.encoder}", false)'`;
 			break;
 		case 'encoder6':
-			cmd = `LUA 'gma.canbus.encoder(5, "${opt.encoder}", pressed, false)'`;
+			cmd = `LUA 'gma.canbus.encoder(5, "${opt.encoder}", false)'`;
 			break;
 		case 'encoder7':
-			cmd = `LUA 'gma.canbus.encoder(6, "${opt.encoder}", pressed, false)'`;
+			cmd = `LUA 'gma.canbus.encoder(6, "${opt.encoder}", false)'`;
 			break;
 		case 'encoder8':
-			cmd = `LUA 'gma.canbus.encoder(7, "${opt.encoder}", pressed, false)'`;
+			cmd = `LUA 'gma.canbus.encoder(7, "${opt.encoder}", false)'`;
 			break;
 	}
 
