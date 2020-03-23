@@ -1,4 +1,4 @@
-var instance_skel = require('../../instance_skel');
+}"var instance_skel = require('../../instance_skel');
 var TelnetSocket = require('../../telnet');
 var debug;
 var log;
@@ -400,34 +400,34 @@ instance.prototype.action = function(action) {
 			cmd = opt.command;
 			break;
 		case 'pushbutton':
-			cmd = `LUA 'gma.canbus.hardkey(${opt.pushbutton}, true, false)'`;
+			cmd = `LUA 'gma.canbus.hardkey("${opt.pushbutton}", true, false)'`;
 			break;
 		case 'relbutton':
-			cmd = `LUA 'gma.canbus.hardkey(${opt.relbutton}, false, false)'`;
+			cmd = `LUA 'gma.canbus.hardkey("${opt.relbutton}", false, false)'`;
 			break;
 		case 'encoder1':
-			cmd = `LUA 'gma.canbus.encoder(0, ${opt.encoder}, pressed, false)'`;
+			cmd = `LUA 'gma.canbus.encoder(0, "${opt.encoder}", pressed, false)'`;
 			break;
 		case 'encoder2':
-			cmd = `LUA 'gma.canbus.encoder(1, ${opt.encoder}, pressed, false)'`;
+			cmd = `LUA 'gma.canbus.encoder(1, "${opt.encoder}", pressed, false)'`;
 			break;
 		case 'encoder3':
-			cmd = `LUA 'gma.canbus.encoder(2, ${opt.encoder}, pressed, false)'`;
+			cmd = `LUA 'gma.canbus.encoder(2, "${opt.encoder}", pressed, false)'`;
 			break;
 		case 'encoder4':
-			cmd = `LUA 'gma.canbus.encoder(3, ${opt.encoder}, pressed, false)'`;
+			cmd = `LUA 'gma.canbus.encoder(3, "${opt.encoder}", pressed, false)'`;
 			break;
 		case 'encoder5':
-			cmd = `LUA 'gma.canbus.encoder(4, ${opt.encoder}, pressed, false)'`;
+			cmd = `LUA 'gma.canbus.encoder(4, "${opt.encoder}", pressed, false)'`;
 			break;
 		case 'encoder6':
-			cmd = `LUA 'gma.canbus.encoder(5, ${opt.encoder}, pressed, false)'`;
+			cmd = `LUA 'gma.canbus.encoder(5, "${opt.encoder}", pressed, false)'`;
 			break;
 		case 'encoder7':
-			cmd = `LUA 'gma.canbus.encoder(6, ${opt.encoder}, pressed, false)'`;
+			cmd = `LUA 'gma.canbus.encoder(6, "${opt.encoder}", pressed, false)'`;
 			break;
 		case 'encoder8':
-			cmd = `LUA 'gma.canbus.encoder(7, ${opt.encoder}, pressed, false)'`;
+			cmd = `LUA 'gma.canbus.encoder(7, "${opt.encoder}", pressed, false)'`;
 			break;
 	}
 
