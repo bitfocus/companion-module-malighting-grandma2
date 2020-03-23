@@ -318,7 +318,7 @@ instance.prototype.actions = function(system) {
 			options: [{
 				type: 'dropdown',
 				label: 'Direction',
-				id: 'encoder1',
+				id: 'encoder',
 				choices: self.CHOICES_DIRECTION
 			}]
 		},
@@ -327,7 +327,7 @@ instance.prototype.actions = function(system) {
 			options: [{
 				type: 'dropdown',
 				label: 'Direction',
-				id: 'encoder2',
+				id: 'encoder',
 				choices: self.CHOICES_DIRECTION
 			}]
 		},
@@ -336,7 +336,7 @@ instance.prototype.actions = function(system) {
 			options: [{
 				type: 'dropdown',
 				label: 'Direction',
-				id: 'encoder3',
+				id: 'encoder',
 				choices: self.CHOICES_DIRECTION
 			}]
 		},
@@ -345,7 +345,7 @@ instance.prototype.actions = function(system) {
 			options: [{
 				type: 'dropdown',
 				label: 'Direction',
-				id: 'encoder4',
+				id: 'encoder',
 				choices: self.CHOICES_DIRECTION
 			}]
 		},
@@ -354,7 +354,7 @@ instance.prototype.actions = function(system) {
 			options: [{
 				type: 'dropdown',
 				label: 'Direction',
-				id: 'encoder5',
+				id: 'encoder',
 				choices: self.CHOICES_DIRECTION
 			}]
 		},
@@ -363,7 +363,7 @@ instance.prototype.actions = function(system) {
 			options: [{
 				type: 'dropdown',
 				label: 'Direction',
-				id: 'encoder6',
+				id: 'encoder',
 				choices: self.CHOICES_DIRECTION
 			}]
 		},
@@ -372,7 +372,7 @@ instance.prototype.actions = function(system) {
 			options: [{
 				type: 'dropdown',
 				label: 'Direction',
-				id: 'encoder7',
+				id: 'encoder',
 				choices: self.CHOICES_DIRECTION
 			}]
 		},
@@ -381,7 +381,7 @@ instance.prototype.actions = function(system) {
 			options: [{
 				type: 'dropdown',
 				label: 'Direction',
-				id: 'encoder8',
+				id: 'encoder',
 				choices: self.CHOICES_DIRECTION
 			}]
 		}
@@ -400,35 +400,34 @@ instance.prototype.action = function(action) {
 			cmd = opt.command;
 			break;
 		case 'pushbutton':
-			cmd = 'LUA \'gma.canbus.hardkey(\"'+ opt.pushbutton +'\", true, false)\'';
-			// cmd = `LUA 'gma.canbus.hardkey("${opt.pushbutton}", true, false)'`;
+			cmd = `LUA 'gma.canbus.hardkey(${opt.pushbutton}, true, false)'`;
 			break;
 		case 'relbutton':
-			cmd = 'LUA \'gma.canbus.hardkey(\"'+ opt.relbutton +'\", false, false)\'';
+			cmd = `LUA 'gma.canbus.hardkey(${opt.relbutton}, false, false)'`;
 			break;
 		case 'encoder1':
-			cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder1 +', pressed, false)\'';
+			cmd = `LUA 'gma.canbus.encoder(0, ${opt.encoder}, pressed, false)'`;
 			break;
 		case 'encoder2':
-			cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder2 +', pressed, false)\'';
+			cmd = `LUA 'gma.canbus.encoder(1, ${opt.encoder}, pressed, false)'`;
 			break;
 		case 'encoder3':
-			cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder3 +', pressed, false)\'';
+			cmd = `LUA 'gma.canbus.encoder(2, ${opt.encoder}, pressed, false)'`;
 			break;
 		case 'encoder4':
-			cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder4 +', pressed, false)\'';
+			cmd = `LUA 'gma.canbus.encoder(3, ${opt.encoder}, pressed, false)'`;
 			break;
 		case 'encoder5':
-			cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder5 +', pressed, false)\'';
+			cmd = `LUA 'gma.canbus.encoder(4, ${opt.encoder}, pressed, false)'`;
 			break;
 		case 'encoder6':
-			cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder6 +', pressed, false)\'';
+			cmd = `LUA 'gma.canbus.encoder(5, ${opt.encoder}, pressed, false)'`;
 			break;
 		case 'encoder7':
-			cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder7 +', pressed, false)\'';
+			cmd = `LUA 'gma.canbus.encoder(6, ${opt.encoder}, pressed, false)'`;
 			break;
 		case 'encoder8':
-			cmd = 'LUA \'gma.canbus.encoder(0, '+ opt.encoder8 +', pressed, false)\'';
+			cmd = `LUA 'gma.canbus.encoder(7, ${opt.encoder}, pressed, false)'`;
 			break;
 	}
 
