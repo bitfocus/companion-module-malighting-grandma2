@@ -1,4 +1,4 @@
-}"var instance_skel = require('../../instance_skel');
+var instance_skel = require('../../instance_skel');
 var TelnetSocket = require('../../telnet');
 var debug;
 var log;
