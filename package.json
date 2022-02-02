@@ -17,5 +17,13 @@
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "William Viker <william.viker@gmail.com>",
-	"license": "MIT"
+	"license": "MIT",
+	"homepage": "https://github.com/bitfocus/companion-module-malighting-grandma2#readme",
+	"bugs": {
+		"url": "https://github.com/bitfocus/companion-module-malighting-grandma2/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/bitfocus/companion-module-malighting-grandma2.git"
+	}
 }
