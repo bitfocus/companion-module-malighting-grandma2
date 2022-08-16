@@ -290,7 +290,7 @@ instance.prototype.actions = function(system) {
 		'command': {
 			label:'Run Command',
 			options: [{
-				type: 'textinput',
+				type: 'textwithvariables',
 				label: 'Command',
 				id: 'command'
 			}]
@@ -388,10 +388,21 @@ instance.prototype.actions = function(system) {
 	});
 }
 
+instance.prototype.parse = function(value) {
+	var self = this;
+
+	if (value.includes('$(')) {
+		self.parseVariables(value, (parsed) => {
+			value = parsed
+		})
+	}
+
+	return value
+}
+
 instance.prototype.action = function(action) {
 	var self = this;
 	var opt = action.options;
-	// console.log("Sending some action", action);
 	var cmd;
 
 	switch (action.action){
@@ -434,7 +445,7 @@ instance.prototype.action = function(action) {
 	if (cmd !== undefined) {
 
 		if (self.socket !== undefined && self.socket.connected) {
-			self.socket.write(cmd+"\r\n");
+			self.socket.write(self.parse(cmd) + "\r\n");
 		} else {
 			debug('Socket not connected :(');
 		}
