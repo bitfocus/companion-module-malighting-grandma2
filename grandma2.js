@@ -290,7 +290,7 @@ instance.prototype.actions = function(system) {
 		'command': {
 			label:'Run Command',
 			options: [{
-				type: 'textinput',
+				type: 'textwithvariables',
 				label: 'Command',
 				id: 'command'
 			}]
@@ -388,16 +388,25 @@ instance.prototype.actions = function(system) {
 	});
 }
 
+instance.prototype.parse = function(value) {
+	var self = this;
+
+	self.parseVariables(value, (parsed) => {
+		value = parsed
+	})
+
+	return value
+}
+
 instance.prototype.action = function(action) {
 	var self = this;
 	var opt = action.options;
-	// console.log("Sending some action", action);
 	var cmd;
 
 	switch (action.action){
 
 		case 'command':
-			cmd = opt.command;
+			cmd = self.parse(opt.command);
 			break;
 		case 'pushbutton':
 			cmd = `LUA 'gma.canbus.hardkey("${opt.pushbutton}", true, false)'`;
@@ -434,7 +443,7 @@ instance.prototype.action = function(action) {
 	if (cmd !== undefined) {
 
 		if (self.socket !== undefined && self.socket.connected) {
-			self.socket.write(cmd+"\r\n");
+			self.socket.write(cmd + "\r\n");
 		} else {
 			debug('Socket not connected :(');
 		}
