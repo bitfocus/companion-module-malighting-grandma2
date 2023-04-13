@@ -1,1 +1,7 @@
 node_modules/
+.eslintrc
+/pkg
+/pkg.tgz
+DEBUG-INSPECT
+DEBUG-PACKAGED
+DEBUG-PACKAGE

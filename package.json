@@ -1,29 +1,20 @@
 {
 	"name": "malighting-grandma2",
-	"legacy": [
-		"grandma2"
-	],
-	"version": "1.0.13",
-	"api_version": "1.0.0",
-	"keywords": [
-		"Lighting"
-	],
-	"manufacturer": "MA Lighting",
-	"product": "2",
-	"shortname": "grandma2",
-	"description": "",
+	"version": "2.0.0",
+	"type": "module",
 	"main": "grandma2.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
-	"author": "William Viker <william.viker@gmail.com>",
 	"license": "MIT",
-	"homepage": "https://github.com/bitfocus/companion-module-malighting-grandma2#readme",
-	"bugs": {
-		"url": "https://github.com/bitfocus/companion-module-malighting-grandma2/issues"
-	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/bitfocus/companion-module-malighting-grandma2.git"
+	},
+	"dependencies": {
+		"@companion-module/base": "~1.4.0"
+	},
+	"devDependencies": {
+		"@companion-module/tools": "^1.2.0"
 	}
 }

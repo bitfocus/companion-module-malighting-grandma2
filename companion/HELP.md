@@ -5,4 +5,7 @@ Remember to activate Telnet Remote in Setup -> Console -> Global Settings -> Tel
 **Available commands for GrandMA 2 (telnet)**
 
 * Run Command
-* all other options are not confirmed tested!
+* Button (Key) Press/Release, selectable from list of Keys
+* Encoder Rotate CCW(Left) or CW(Right)
+* Encoder Press/Release
+* Wheel spin Up/Down
