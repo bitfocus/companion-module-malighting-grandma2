@@ -9,3 +9,5 @@ Remember to activate Telnet Remote in Setup -> Console -> Global Settings -> Tel
 * Encoder Rotate CCW(Left) or CW(Right)
 * Encoder Press/Release
 * Wheel spin Up/Down
+
+Allows for custom variables in most command options
