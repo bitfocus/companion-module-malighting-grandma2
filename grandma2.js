@@ -62,12 +62,27 @@ class MA2Instance extends InstanceBase {
 			delete this.socket
 			this.login = false
 		}
+		if (self.socketTimer) {
+			clearInterval(self.socketTimer)
+			delete self.socketTimer
+		}
 
 		if (this.config.host) {
 			this.socket = new TelnetSocket(this.config.host, 30000)
 
 			this.socket.on('error', function (err) {
 				self.log('error', 'Network error: ' + err.message)
+				self.login = false
+				// set timer to retry connection in 10 secs
+				if (self.socketTimer) {
+					clearInterval(self.socketTimer)
+					delete self.socketTimer
+				}
+				delete self.socket
+				self.socketTimer = setInterval(function () {
+					self.updateStatus(InstanceStatus.Connecting, 'Retrying connection')
+					self.init_tcp()
+				}, 10000)
 			})
 
 			this.socket.on('connect', function () {
@@ -75,7 +90,30 @@ class MA2Instance extends InstanceBase {
 				self.login = false
 			})
 
-			// if we get any data, display it to stdout
+			this.socket.on('status_change', function (status, message) {
+				if (status=='ok' || status=='connecting') {
+					// ignore
+				} else if (message == 'read ECONNRESET') {
+					self.socket.emit('end')
+				} else {
+					self.log('debug', status + ' ' + message)
+				}
+			})
+
+			this.socket.on('end', function () {
+				self.log('error', 'Console disconnected')
+				self.updateStatus(InstanceStatus.Error, 'Disconnected')
+				// set timer to retry connection in 30 secs
+				if (self.socketTimer) {
+					clearInterval(self.socketTimer)
+					delete self.socketTimer
+				}
+				self.socketTimer = setInterval(function () {
+					self.updateStatus(InstanceStatus.Connecting, 'Retrying connection')
+					self.init_tcp()
+				}, 30000)
+			})
+
 			this.socket.on('data', function (buffer) {
 				var indata = buffer.toString('utf8')
 				self.incomingData(indata)
@@ -129,66 +167,5 @@ class MA2Instance extends InstanceBase {
 			},
 		]
 	}
-
-	// parse(value) {
-	// 	var self = this
-
-	// 	self.parseVariables(value, (parsed) => {
-	// 		value = parsed
-	// 	})
-
-	// 	return value
-	// }
-
-	// instance.prototype.action = function (action) {
-	// 	var self = this
-	// 	var opt = action.options
-	// 	var cmd
-
-	// 	switch (action.action) {
-	// 		case 'command':
-	// 			cmd = self.parse(opt.command)
-	// 			break
-	// 		case 'pushbutton':
-	// 			cmd = `LUA 'gma.canbus.hardkey("${opt.pushbutton}", true, false)'`
-	// 			break
-	// 		case 'relbutton':
-	// 			cmd = `LUA 'gma.canbus.hardkey("${opt.relbutton}", false, false)'`
-	// 			break
-	// 		case 'encoder1':
-	// 			cmd = `LUA 'gma.canbus.encoder(0, "${opt.encoder}", nil)'`
-	// 			break
-	// 		case 'encoder2':
-	// 			cmd = `LUA 'gma.canbus.encoder(1, "${opt.encoder}", false)'`
-	// 			break
-	// 		case 'encoder3':
-	// 			cmd = `LUA 'gma.canbus.encoder(2, "${opt.encoder}", false)'`
-	// 			break
-	// 		case 'encoder4':
-	// 			cmd = `LUA 'gma.canbus.encoder(3, "${opt.encoder}", false)'`
-	// 			break
-	// 		case 'encoder5':
-	// 			cmd = `LUA 'gma.canbus.encoder(4, "${opt.encoder}", false)'`
-	// 			break
-	// 		case 'encoder6':
-	// 			cmd = `LUA 'gma.canbus.encoder(5, "${opt.encoder}", false)'`
-	// 			break
-	// 		case 'encoder7':
-	// 			cmd = `LUA 'gma.canbus.encoder(6, "${opt.encoder}", false)'`
-	// 			break
-	// 		case 'encoder8':
-	// 			cmd = `LUA 'gma.canbus.encoder(7, "${opt.encoder}", false)'`
-	// 			break
-	// 	}
-
-	// 	if (cmd !== undefined) {
-	// 		if (self.socket !== undefined && self.socket.connected) {
-	// 			self.socket.write(cmd + '\r\n')
-	// 		} else {
-	// 			debug('Socket not connected :(')
-	// 		}
-	// 	}
-	// }
 }
-
 runEntrypoint(MA2Instance, UpgradeScripts)
