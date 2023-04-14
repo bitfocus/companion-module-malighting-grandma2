@@ -36,21 +36,23 @@ class MA2Instance extends InstanceBase {
 		}
 	}
 
-	incomingData(data) {
+	incomingData(data, self) {
 		if (process.env.DEVELOPER) {
-			this.log('debug', data)
+			self.log('debug', data)
 		}
-		if (this.login === false && data.match(/Please login/)) {
-			this.updateStatus(InstanceStatus.Connecting, 'Logging in')
-			this.log('info', 'Logging In')
-			this.socket.send('login ' + this.config.user + ' ' + this.config.pass + '\r\n')
-		} else if (this.login === false && data.match(/Logged in as User/) && !data.match(/guest/)) {
-			this.login = true
-			this.updateStatus(InstanceStatus.Ok, 'Logged in')
-			this.log('info', 'logged in')
-		} else if (this.login === false && data.match(/no login/)) {
-			this.updateStatus(InstanceStatus.ConnectionFailure, 'Incorrect user/pass')
-			this.log('warn', 'Incorrect username or password')
+		if (!self.login) {
+			if (data.match(/Please login/)) {
+				self.updateStatus(InstanceStatus.Connecting, 'Logging in')
+				self.log('info', 'Logging In')
+				self.socket.send('login ' + this.config.user + ' ' + this.config.pass + '\r\n')
+			} else if (data.match(/Logged in as User/) && !data.match(/guest/)) {
+				self.login = true
+				self.updateStatus(InstanceStatus.Ok, 'Logged in')
+				self.log('info', 'logged in')
+			} else if (data.match(/no login/)) {
+				self.updateStatus(InstanceStatus.ConnectionFailure, 'Incorrect user/pass')
+				self.log('warn', 'Incorrect username or password')
+			}
 		}
 	}
 
@@ -78,7 +80,10 @@ class MA2Instance extends InstanceBase {
 					clearInterval(self.socketTimer)
 					delete self.socketTimer
 				}
-				delete self.socket
+				if (self.socket) {
+					self.socket.destroy()
+					delete self.socket
+				}
 				self.socketTimer = setInterval(function () {
 					self.updateStatus(InstanceStatus.Connecting, 'Retrying connection')
 					self.init_tcp()
@@ -91,7 +96,7 @@ class MA2Instance extends InstanceBase {
 			})
 
 			this.socket.on('status_change', function (status, message) {
-				if (status=='ok' || status=='connecting') {
+				if (status == 'ok' || status == 'connecting') {
 					// ignore
 				} else if (message == 'read ECONNRESET') {
 					self.socket.emit('end')
@@ -102,21 +107,27 @@ class MA2Instance extends InstanceBase {
 
 			this.socket.on('end', function () {
 				self.log('error', 'Console disconnected')
+				self.login = false
 				self.updateStatus(InstanceStatus.Error, 'Disconnected')
-				// set timer to retry connection in 30 secs
+				if (self.socket) {
+					self.socket.destroy()
+					delete self.socket
+				}
+				// set timer to retry connection in 10 secs
 				if (self.socketTimer) {
 					clearInterval(self.socketTimer)
 					delete self.socketTimer
 				}
+
 				self.socketTimer = setInterval(function () {
 					self.updateStatus(InstanceStatus.Connecting, 'Retrying connection')
 					self.init_tcp()
-				}, 30000)
+				}, 10000)
 			})
 
 			this.socket.on('data', function (buffer) {
 				var indata = buffer.toString('utf8')
-				self.incomingData(indata)
+				self.incomingData(indata, self)
 			})
 
 			this.socket.on('iac', function (type, info) {
