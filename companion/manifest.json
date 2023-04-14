@@ -1,0 +1,36 @@
+{
+	"id": "malighting-grandma2",
+	"name": "malighting-grandma2",
+	"shortname": "grandma2",
+	"description": "",
+	"version": "0.0.0",
+	"license": "MIT",
+	"repository": "git+https://github.com/bitfocus/companion-module-malighting-grandma2.git",
+	"bugs": "https://github.com/bitfocus/companion-module-malighting-grandma2/issues",
+	"maintainers": [
+		{
+			"name": "John Knight, Jr",
+			"email": "istnv@istnv.com"
+		},
+		{
+			"name": "William Viker",
+			"email": "william.viker@gmail.com"
+		}
+	],
+	"legacyIds": [
+		"grandma2"
+	],
+	"runtime": {
+		"type": "node18",
+		"api": "nodejs-ipc",
+		"apiVersion": "0.0.0",
+		"entrypoint": "../grandma2.js"
+	},
+	"manufacturer": "MA Lighting",
+	"products": [
+		"GrandMA2"
+	],
+	"keywords": [
+		"Lighting"
+	]
+}
