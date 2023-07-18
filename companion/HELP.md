@@ -11,3 +11,9 @@ Remember to activate Telnet Remote in Setup -> Console -> Global Settings -> Tel
 * Wheel spin Up/Down
 
 Allows for custom variables in most command options
+
+--------
+Contributions for maintenance and development of this open source module are always welcome
+https://github.com/sponsors/istnv
+
+--------
