@@ -36,101 +36,100 @@ class MA2Instance extends InstanceBase {
 		}
 	}
 
-	incomingData(data, self) {
+	incomingData(data) {
 		if (process.env.DEVELOPER) {
-			self.log('debug', data)
+			this.log('debug', data)
 		}
-		if (!self.login) {
+		if (!this.login) {
 			if (data.match(/Please login/)) {
-				self.updateStatus(InstanceStatus.Connecting, 'Logging in')
-				self.log('info', 'Logging In')
-				self.socket.send('login ' + this.config.user + ' ' + this.config.pass + '\r\n')
+				this.updateStatus(InstanceStatus.Connecting, 'Logging in')
+				this.log('info', 'Logging In')
+				this.socket.send('login ' + this.config.user + ' ' + this.config.pass + '\r\n')
 			} else if (data.match(/Logged in as User/) && !data.match(/guest/)) {
-				self.login = true
-				self.updateStatus(InstanceStatus.Ok, 'Logged in')
-				self.log('info', 'logged in')
+				this.login = true
+				this.updateStatus(InstanceStatus.Ok, 'Logged in')
+				this.log('info', 'logged in')
 			} else if (data.match(/no login/)) {
-				self.updateStatus(InstanceStatus.ConnectionFailure, 'Incorrect user/pass')
-				self.log('warn', 'Incorrect username or password')
+				this.updateStatus(InstanceStatus.ConnectionFailure, 'Incorrect user/pass')
+				this.log('warn', 'Incorrect username or password')
 			}
 		}
 	}
 
 	init_tcp() {
-		let self = this
 
 		if (this.socket !== undefined) {
 			this.socket.destroy()
 			delete this.socket
 			this.login = false
 		}
-		if (self.socketTimer) {
-			clearInterval(self.socketTimer)
-			delete self.socketTimer
+		if (this.socketTimer) {
+			clearInterval(this.socketTimer)
+			delete this.socketTimer
 		}
 
 		if (this.config.host) {
 			this.socket = new TelnetSocket(this.config.host, 30000)
 
-			this.socket.on('error', function (err) {
-				self.log('error', 'Network error: ' + err.message)
-				self.login = false
+			this.socket.on('error', (err) => {
+				this.log('error', 'Network error: ' + err.message)
+				this.login = false
 				// set timer to retry connection in 10 secs
-				if (self.socketTimer) {
-					clearInterval(self.socketTimer)
-					delete self.socketTimer
+				if (this.socketTimer) {
+					clearInterval(this.socketTimer)
+					delete this.socketTimer
 				}
-				if (self.socket) {
-					self.socket.destroy()
-					delete self.socket
+				if (this.socket) {
+					this.socket.destroy()
+					delete this.socket
 				}
-				self.socketTimer = setInterval(function () {
-					self.updateStatus(InstanceStatus.Connecting, 'Retrying connection')
-					self.init_tcp()
+				this.socketTimer = setInterval( () => {
+					this.updateStatus(InstanceStatus.Connecting, 'Retrying connection')
+					this.init_tcp()
 				}, 10000)
 			})
 
-			this.socket.on('connect', function () {
-				self.log('debug', 'Connected')
-				self.login = false
+			this.socket.on('connect', () => {
+				this.log('debug', 'Connected')
+				this.login = false
 			})
 
-			this.socket.on('status_change', function (status, message) {
+			this.socket.on('status_change', (status, message) => {
 				if (status == 'ok' || status == 'connecting') {
 					// ignore
 				} else if (message == 'read ECONNRESET') {
-					self.socket.emit('end')
+					this.socket.emit('end')
 				} else {
-					self.log('debug', status + ' ' + message)
+					this.log('debug', status + ' ' + message)
 				}
 			})
 
-			this.socket.on('end', function () {
-				self.log('error', 'Console disconnected')
-				self.login = false
-				self.updateStatus(InstanceStatus.Error, 'Disconnected')
-				if (self.socket) {
-					self.socket.destroy()
-					delete self.socket
+			this.socket.on('end', () => {
+				this.log('error', 'Console disconnected')
+				this.login = false
+				this.updateStatus(InstanceStatus.Error, 'Disconnected')
+				if (this.socket) {
+					this.socket.destroy()
+					delete this.socket
 				}
 				// set timer to retry connection in 10 secs
-				if (self.socketTimer) {
-					clearInterval(self.socketTimer)
-					delete self.socketTimer
+				if (this.socketTimer) {
+					clearInterval(this.socketTimer)
+					delete this.socketTimer
 				}
 
-				self.socketTimer = setInterval(function () {
-					self.updateStatus(InstanceStatus.Connecting, 'Retrying connection')
-					self.init_tcp()
+				this.socketTimer = setInterval( () => {
+					this.updateStatus(InstanceStatus.Connecting, 'Retrying connection')
+					this.init_tcp()
 				}, 10000)
 			})
 
-			this.socket.on('data', function (buffer) {
+			this.socket.on('data', (buffer) => {
 				var indata = buffer.toString('utf8')
-				self.incomingData(indata, self)
+				this.incomingData(indata)
 			})
 
-			this.socket.on('iac', function (type, info) {
+			this.socket.on('iac', (type, info) => {
 				// tell remote we WONT do anything we're asked to DO
 				if (type == 'DO') {
 					socket.write(Buffer.from([255, 252, info]))
