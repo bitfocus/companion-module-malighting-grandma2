@@ -1,6 +1,6 @@
 {
 	"name": "malighting-grandma2",
-	"version": "2.0.1",
+	"version": "2.1.0",
 	"type": "module",
 	"main": "grandma2.js",
 	"scripts": {
@@ -12,9 +12,9 @@
 		"url": "git+https://github.com/bitfocus/companion-module-malighting-grandma2.git"
 	},
 	"dependencies": {
-		"@companion-module/base": "~1.4.0"
+		"@companion-module/base": "^1.7.0"
 	},
 	"devDependencies": {
-		"@companion-module/tools": "^1.2.0"
+		"@companion-module/tools": "^1.4.2"
 	}
 }
