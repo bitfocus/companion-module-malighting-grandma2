@@ -4,6 +4,7 @@ import { runEntrypoint, InstanceBase, InstanceStatus } from '@companion-module/b
 import * as CHOICES from './choices.js'
 import { compileActionDefinitions } from './actions.js'
 import { UpgradeScripts } from './upgrades.js'
+import { updateVariableDefinitions } from './variables.js'
 
 const TelnetSocket = TelnetHelper
 
@@ -25,6 +26,7 @@ class MA2Instance extends InstanceBase {
 		this.config = config
 
 		this.setActionDefinitions(compileActionDefinitions(this)) // export actions
+		updateVariableDefinitions(this)
 		this.init_tcp()
 	}
 
@@ -40,6 +42,12 @@ class MA2Instance extends InstanceBase {
 		if (process.env.DEVELOPER) {
 			this.log('debug', data)
 		}
+
+		// save the response to a variable, stripping ANSI codes
+		// eslint-disable-next-line no-control-regex
+		const cleanData = data.replace(/\x1b\[[0-9;]*m/g, '')
+		this.setVariableValues({ response: cleanData })
+
 		if (!this.login) {
 			if (data.match(/Please login/)) {
 				this.updateStatus(InstanceStatus.Connecting, 'Logging in')
