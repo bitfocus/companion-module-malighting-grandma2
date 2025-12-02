@@ -1,6 +1,6 @@
 {
 	"name": "malighting-grandma2",
-	"version": "2.2.0",
+	"version": "2.3.0",
 	"type": "module",
 	"main": "grandma2.js",
 	"scripts": {

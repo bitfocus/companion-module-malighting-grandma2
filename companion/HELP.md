@@ -12,6 +12,10 @@ Remember to activate Telnet Remote in Setup -> Console -> Global Settings -> Tel
 
 Allows for custom variables in most command options
 
+**Available variables**
+
+* Last Terminal Response from console
+
 --------
 Contributions for maintenance and development of this open source module are always welcome
 https://github.com/sponsors/istnv
