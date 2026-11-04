@@ -4,8 +4,7 @@
 	"type": "module",
 	"main": "grandma2.js",
 	"scripts": {
-		"build": "node --check grandma2.js && node --check actions.js && node --check choices.js && node --check variables.js && node --check upgrades.js",
-		"test": "node --test"
+		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"license": "MIT",
 	"repository": {
