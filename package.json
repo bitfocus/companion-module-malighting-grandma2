@@ -4,7 +4,8 @@
 	"type": "module",
 	"main": "grandma2.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"build": "node --check grandma2.js && node --check actions.js && node --check choices.js && node --check variables.js && node --check upgrades.js",
+		"test": "node --test"
 	},
 	"license": "MIT",
 	"repository": {
@@ -12,10 +13,13 @@
 		"url": "git+https://github.com/bitfocus/companion-module-malighting-grandma2.git"
 	},
 	"dependencies": {
-		"@companion-module/base": "^1.8.0"
+		"@companion-module/base": "~1.15.0"
 	},
 	"devDependencies": {
-		"@companion-module/tools": "^1.5.0"
+		"@companion-module/tools": "^2.9.0"
 	},
-	"packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+	"packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+	"engines": {
+		"node": "^26.5"
+	}
 }
